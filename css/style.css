@@ -198,10 +198,21 @@ label span {
 #cart tr td:last-child,
 #cart tr th:last-child {
   text-align: left;
-  width: 100%;
+  /* width: 100%; */
 }
 
 #cart tr td:first-child {
   color: red;
   cursor: pointer;
+}
+
+td img{
+width:40px;
+height:40px;
+vertical-align: middle;
+}
+
+#cart tr td:last-child
+{
+  width:
 }
