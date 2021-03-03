@@ -17,7 +17,6 @@ function populateForm() {
     selectElement.appendChild(optionEl);
   }
 
-
   document.querySelector('#itemCount').textContent = ` (${cart.items.length})`;
   if (localStorage.cart) {
     const tempLocalstorageItems = JSON.parse(localStorage.getItem('cart'));
@@ -86,8 +85,6 @@ function updateCartPreview() {
   let name = document.createElement('span');
   name.textContent = cart.items[cart.items.length - 1].product.name;
   itemParagraph.appendChild(name);
-
-
 }
 
 // Set up the "submit" event listener on the form.
