@@ -9,14 +9,15 @@ const cart = new Cart([]);
 // (the things in the Product.allProducts array) into the drop down list.
 function populateForm() {
   //TODO: Add an <option> tag inside the form's select for each product
-  const selectElement = document.getElementById('items');
+  const selectElement = document.querySelector('#items');
   for (let i in Product.allProducts) {
     let optionEl = document.createElement('option');
-    optionEl.value = Product.allProducts[i].name;
+    optionEl.value = i;
     optionEl.textContent = Product.allProducts[i].name;
     selectElement.appendChild(optionEl);
   }
 
+  document.querySelector('#itemCount').textContent = ` (${cart.items.length})`;
   if (localStorage.cart) {
     const tempLocalstorageItems = JSON.parse(localStorage.getItem('cart'));
     for (let i = 0; i < tempLocalstorageItems.length; i++) {
@@ -30,10 +31,6 @@ function populateForm() {
       updateCounter();
       updateCartPreview();
     }
-  } else {
-    document.getElementById(
-      'itemCount'
-    ).textContent = ` (${cart.items.length})`;
   }
 }
 
@@ -59,17 +56,19 @@ function addSelectedItemToCart() {
   // TODO: get the quantity
   // TODO: using those, add one item to the Cart
 
-  const selectElement = document.getElementById('items').value;
-  const quantityElement = document.getElementById('quantity').value;
-
-  cart.addItem(selectElement, quantityElement);
-  console.log(cart.items);
+  const selectElement = document.querySelector('#items').value;
+  if (isNaN(document.querySelector('#quantity').value)) {
+    alert('Please insert number!');
+  } else {
+    const quantityElement = document.querySelector('#quantity').value;
+    cart.addItem(Product.allProducts[selectElement], quantityElement);
+  }
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
 
 function updateCounter() {
-  document.getElementById('itemCount').textContent = ` (${cart.items.length})`;
+  document.querySelector('#itemCount').textContent = ` (${cart.items.length})`;
 }
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
@@ -81,22 +80,17 @@ function updateCartPreview() {
 
   let number = document.createElement('span');
   number.textContent = `${cart.items[cart.items.length - 1].quantity}: `;
-  // number.setAttribute('style', 'float:right');
   itemParagraph.appendChild(number);
-  document.getElementById('cartContents').appendChild(itemParagraph);
-
+  document.querySelector('#cartContents').appendChild(itemParagraph);
   let name = document.createElement('span');
-  name.textContent = cart.items[cart.items.length - 1].product;
-  // name.setAttribute('style', 'float:left');
+  name.textContent = cart.items[cart.items.length - 1].product.name;
   itemParagraph.appendChild(name);
-
-  // cart.items[cart.items.length-1]
 }
 
 // Set up the "submit" event listener on the form.
 // This is the trigger for the app. When a user "submits" the form, it will
 // Call that handleSubmit method above and kick off the whole process
-const catalogForm = document.getElementById('catalog');
+const catalogForm = document.querySelector('#catalog');
 catalogForm.addEventListener('submit', handleSubmit);
 
 // Before anything else of value can happen, we need to fill in the select
